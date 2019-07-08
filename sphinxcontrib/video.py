@@ -25,6 +25,7 @@ class Video(Directive):
         "alt": directives.unchanged,
         "width": directives.unchanged,
         "height": directives.unchanged,
+		"poster": directives.unchanged,
         "autoplay": directives.flag,
         "nocontrols": directives.flag
     }
@@ -33,6 +34,7 @@ class Video(Directive):
         alt = get_option(self.options, "alt", "Video")
         width = get_option(self.options, "width", "")
         height = get_option(self.options, "height", "")
+        poster = get_option(self.options, "poster", "")
         autoplay = get_option(self.options, "autoplay", False)
         nocontrols = get_option(self.options, "nocontrols", False)
         
@@ -41,6 +43,7 @@ class Video(Directive):
             alt=alt, 
             width=width,
             height=height, 
+			poster=poster,
             autoplay=autoplay, 
             nocontrols=nocontrols
             )]
@@ -49,13 +52,14 @@ def visit_video_node(self, node):
     extension = os.path.splitext(node["path"])[1][1:]
 
     html_block = '''
-    <video {width} {height} {nocontrols} {autoplay}>
+    <video {width} {height} {poster} {nocontrols} {autoplay}>
     <source src="{path}" type="video/{filetype}">
     {alt}
     </video>
     '''.format(
         width="width=\"" + node["width"] + "\"" if node["width"] else "", 
         height="height=\"" + node["height"] + "\"" if node["height"] else "",
+        poster="poster=\"" + node["poster"] + "\"" if node["poster"] else "",
         path=node["path"], 
         filetype=extension,
         alt=node["alt"],
