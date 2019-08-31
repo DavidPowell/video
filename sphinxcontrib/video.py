@@ -68,9 +68,19 @@ def visit_video_node(self, node):
         )
     self.body.append(html_block)
 
+def visit_video_node_latex(self, node):
+    latex_block = '''
+    \\includegraphics{{ {poster} }}
+    '''.format(
+        poster=node["poster"],
+        )
+    self.body.append('')
+
+
 def depart_video_node(self, node):
     pass
 
 def setup(app):
-    app.add_node(video, html=(visit_video_node, depart_video_node))
+    app.add_node(video, html=(visit_video_node, depart_video_node),
+        latex=(visit_video_node_latex, depart_video_node))
     app.add_directive("video", Video)
