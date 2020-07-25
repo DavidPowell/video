@@ -54,15 +54,15 @@ def visit_video_node(self, node):
     html_block = '''
     <video {width} {height} {poster} {nocontrols} {autoplay}>
     <source src="{path}" type="video/{filetype}">
-    {alt}
     </video>
+    {alt}
     '''.format(
         width="width=\"" + node["width"] + "\"" if node["width"] else "", 
         height="height=\"" + node["height"] + "\"" if node["height"] else "",
         poster="poster=\"" + node["poster"] + "\"" if node["poster"] else "",
         path=node["path"], 
         filetype=extension,
-        alt=node["alt"],
+        alt='<image src="' +node["poster"] + '" class="printonly">',
         autoplay="autoplay" if node["autoplay"] else "",
         nocontrols="" if node["nocontrols"] else "controls"
         )
